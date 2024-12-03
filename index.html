@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>merge aka chinmay was here</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            height: 100%; /* Full height of the viewport */
+            padding: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .scene {
+            width: 200px;
+            height: 200px;
+            perspective: 1000px;
+            margin: 0 auto;
+        }
+
+        .cube {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(45deg) rotateY(45deg);
+            animation: rotate 5s infinite linear;
+        }
+
+        .cube div {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            backface-visibility: hidden;
+            background: #ffffff;
+        }
+
+        .front  { transform: rotateY(0deg) translateZ(100px); }
+        .back   { transform: rotateY(180deg) translateZ(100px); }
+        .right  { transform: rotateY(90deg) translateZ(100px); }
+        .left   { transform: rotateY(-90deg) translateZ(100px); }
+        .top    { transform: rotateX(90deg) translateZ(100px); }
+        .bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+        @keyframes rotate {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+
+        .color-picker {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .color-picker label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .color-picker input {
+            margin-top: 5px;
+        }
+
+        .background-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: moveShapes 10s linear infinite;
+        }
+
+        .square {
+            border-radius: 0;
+        }
+
+        @keyframes moveShapes {
+            0% {
+                transform: translate(0, 0) scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(100vw, -100vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-shapes">
+        <!-- Shapes will be added dynamically -->
+    </div>
+
+    <div class="container">
+        <h1 class="header">make ur own lil' cube! :p</h1>
+        <div class="scene">
+            <div class="cube">
+                <div class="front" id="front"></div>
+                <div class="back" id="back"></div>
+                <div class="right" id="right"></div>
+                <div class="left" id="left"></div>
+                <div class="top" id="top"></div>
+                <div class="bottom" id="bottom"></div>
+            </div>
+        </div>
+
+        <div class="color-picker">
+            <label>
+                Front: <input type="color" id="colorFront" value="#FF5733">
+            </label>
+            <label>
+                Back: <input type="color" id="colorBack" value="#33FF57">
+            </label>
+            <label>
+                Right: <input type="color" id="colorRight" value="#3357FF">
+            </label>
+            <label>
+                Left: <input type="color" id="colorLeft" value="#F3FF33">
+            </label>
+            <label>
+                Top: <input type="color" id="colorTop" value="#FF33A8">
+            </label>
+            <label>
+                Bottom: <input type="color" id="colorBottom" value="#33FFF3">
+            </label>
+            <label>
+                All Sides: <input type="color" id="colorAll" value="#FFFFFF">
+            </label>
+        </div>
+    </div>
+
+    <footer>
+        Made by Chinmay Singh Butola
+    </footer>
+
+    <script>
+        const faces = {
+            front: document.getElementById('front'),
+            back: document.getElementById('back'),
+            right: document.getElementById('right'),
+            left: document.getElementById('left'),
+            top: document.getElementById('top'),
+            bottom: document.getElementById('bottom'),
+        };
+
+        function updateFaceColor(faceId, color) {
+            faces[faceId].style.background = color;
+        }
+
+        function updateAllFacesColor(color) {
+            for (const face in faces) {
+                faces[face].style.background = color;
+            }
+        }
+
+        document.getElementById('colorFront').addEventListener('input', (e) => updateFaceColor('front', e.target.value));
+        document.getElementById('colorBack').addEventListener('input', (e) => updateFaceColor('back', e.target.value));
+        document.getElementById('colorRight').addEventListener('input', (e) => updateFaceColor('right', e.target.value));
+        document.getElementById('colorLeft').addEventListener('input', (e) => updateFaceColor('left', e.target.value));
+        document.getElementById('colorTop').addEventListener('input', (e) => updateFaceColor('top', e.target.value));
+        document.getElementById('colorBottom').addEventListener('input', (e) => updateFaceColor('bottom', e.target.value));
+        document.getElementById('colorAll').addEventListener('input', (e) => updateAllFacesColor(e.target.value));
+
+        // Generate random shapes in the background
+        const background = document.querySelector('.background-shapes');
+        for (let i = 0; i < 50; i++) {
+            const shape = document.createElement('div');
+            shape.className = `shape ${Math.random() > 0.5 ? 'square' : ''}`;
+            shape.style.width = `${Math.random() * 50 + 10}px`;
+            shape.style.height = shape.style.width;
+            shape.style.top = `${Math.random() * 100}vh`;
+            shape.style.left = `${Math.random() * 100}vw`;
+            shape.style.animationDuration = `${Math.random() * 10 + 5}s`;
+            background.appendChild(shape);
+        }
+    </script>
+</body>
+</html>
